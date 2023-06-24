@@ -6,7 +6,9 @@ import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -26,7 +28,18 @@ public class BookController {
 
 	@Autowired
 	private AppConfig appConfig;
-
+	
+	@GetMapping("/list")
+	public String findBook(Model model) {
+		model.addAttribute("BookList",bookService.findBook());
+		return "booklist";
+	}
+	
+	@GetMapping("/bookinfo")
+	public String showEditBook(Model model) {
+		model.addAttribute("BookList", bookService.findBook());
+		return "bookinfo";
+	}
 
 	@PostMapping("/bookcreate")
 	public String createBook(@ModelAttribute("createBook") BookList bookList, Model model) {
@@ -60,6 +73,15 @@ public class BookController {
 		}
 		return "redirect:/book/list";
 	}
-
-
+	
+	@GetMapping("/createview")
+	public String showBookcreatview(Model model) {
+		return "bookcreate";
+	}
+	
+	@GetMapping("/bookdelete/{book_id}")
+	public String deleteBook(@PathVariable("book_id") int book_id) {
+		bookService.deleteBook(book_id);
+		return "redirect:/book/bookinfo";
+	}
 }

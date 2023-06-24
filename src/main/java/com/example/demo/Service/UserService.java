@@ -25,11 +25,26 @@ public class UserService {
 	return userMapper.findUser();
 }
 
+
+	public void createUser(UserList userList) {
+		userMapper.createUser(userList);
+	}
+	
 	public void editUser(UserList userList) {
 		String encodedpass = passwordEncoder.encode(userList.getPass());
 		userList.setPass(encodedpass);
 		userMapper.editUser(userList);
 	}
+	
+	public void deleteUser(int user_id) {
+		userMapper.deleteUser(user_id);
+	}
+
+
+	public UserList targetUser(int user_id) {
+		return userMapper.targetUser(user_id);
+	}
+
 
 
 }
