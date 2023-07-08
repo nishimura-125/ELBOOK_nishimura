@@ -22,7 +22,7 @@ public class BookService {
 		return bookMapper.getBookList(rental_key_id);
 	}
 
-	public BookList targetBook() {
+	public BookList targetBook(int book_id) {
 		return bookMapper.targetBook();
 	}
 
@@ -37,18 +37,18 @@ public class BookService {
 	public void deleteBook(int book_id) {
 		bookMapper.deleteBook(book_id);
 	}
-//
+
 	public int getMaxNumberBook() {
 		return bookMapper.getMaxNumberBook();
 	}
-//
-//	public void rentalBook(int book_id) {
-//		bookMapper.rentalBook(book_id);
-//
-//	}
-//
-//	public void returnBook(int book_id) {
-//		bookMapper.returnBook(book_id);
-//	}
+
+	public void rentalBook(int book_id) {
+		bookMapper.rentalBook(book_id);
+
+	}
+
+	public void returnBook(int book_id) {
+		bookMapper.returnBook(book_id);
+	}
 
 }

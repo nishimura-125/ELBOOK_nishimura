@@ -10,18 +10,22 @@ import com.example.demo.Entity.BookList;
 public interface BookMapper {
 	
 
-	void createBook(BookList bookList);
-
-	List<BookList> findBook();
+	public List<BookList> findBook();
 	
-	List<BookList> getBookList(int rental_key_id);
-	
-	int getMaxNumberBook();
+	public List<BookList> getBookList(int rental_key_id);
 	
 	BookList targetBook();
-
+	
+	void createBook(BookList bookList);	
+	
 	void editBook(BookList bookList);
 
 	void deleteBook(int book_id);
+
+	int getMaxNumberBook();
+
+	void rentalBook(int book_id);
+
+	void returnBook(int book_id);
 
 }

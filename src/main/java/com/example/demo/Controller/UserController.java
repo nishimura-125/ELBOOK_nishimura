@@ -19,9 +19,6 @@ public class UserController {
 	@Autowired
 	UserService userService;
 
-//
-	
-
 	@GetMapping("/list")
 	public String findUser(Model model) {
 		model.addAttribute("UserList", userService.findUser());
@@ -48,9 +45,7 @@ public class UserController {
 	
 	@PostMapping("/usercreate")
 	public String createUser(@ModelAttribute("createUser") UserList userList , Model model) {
-		
 		userService.createUser(userList);
-		
 		return "redirect:/user/list";
 		
 	}

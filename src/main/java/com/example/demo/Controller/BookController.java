@@ -79,6 +79,13 @@ public class BookController {
 		return "bookcreate";
 	}
 	
+	@GetMapping("/editview/{book_id}")
+	public String moveEditView(@PathVariable ("book_id") int book_id, Model model) {
+		model.addAttribute("TargetBook", bookService.targetBook(book_id));
+		return "bookedit";
+	}
+
+	
 	@GetMapping("/bookdelete/{book_id}")
 	public String deleteBook(@PathVariable("book_id") int book_id) {
 		bookService.deleteBook(book_id);
