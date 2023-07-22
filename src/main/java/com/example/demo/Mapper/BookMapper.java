@@ -14,7 +14,7 @@ public interface BookMapper {
 	
 	public List<BookList> getBookList(int rental_key_id);
 	
-	BookList targetBook();
+	BookList targetBook(int book_id);
 	
 	void createBook(BookList bookList);	
 	

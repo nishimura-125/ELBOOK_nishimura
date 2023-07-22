@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.demo.Entity.AppConfig;
 import com.example.demo.Entity.BookList;
 import com.example.demo.Service.BookService;
+import com.example.demo.Service.auth.CustomDetails;
 
 import lombok.Data;
 
@@ -30,8 +32,9 @@ public class BookController {
 	private AppConfig appConfig;
 	
 	@GetMapping("/list")
-	public String findBook(Model model) {
-		model.addAttribute("BookList",bookService.findBook());
+	public String getBookList(@AuthenticationPrincipal CustomDetails user_info,Model model) {
+		int rental_key_id = user_info.getUserList().getUser_id();
+		model.addAttribute("BookList",bookService.getBookList(rental_key_id));
 		return "booklist";
 	}
 	
@@ -50,28 +53,30 @@ public class BookController {
 		String tmp_file_name = String.valueOf(max_number_book + 1) + ".jpg";
 
 		bookList.setFile_name(tmp_file_name);
-		//System.out.println(bookList);
+
 		//DBに登録処理
 		bookService.createBook(bookList);
 
-		//		System.out.println(file);
 		//ファイルの保存処理
 		if (bookList.getFile().isEmpty()) {
 			model.addAttribute("error", "ファイルを指定してください");
 			return "imagetest";
 		}
-		File dest = new File(appConfig.getImageDir(), tmp_file_name);
+		
+		saveFile(bookList,tmp_file_name);
+		
+		return "redirect:/book/list";
+	}
+		private void saveFile(BookList book,String file_name) {
+		File dest = new File(appConfig.getImageDir(),file_name);
 		System.out.println(dest);
 		try {
-			bookList.getFile().transferTo(dest); //表示される修正候補の「try/catchで囲む」を選択
+			book.getFile().transferTo(dest); //表示される修正候補の「try/catchで囲む」を選択
 		} catch (IllegalStateException e) {
-			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		}
-		return "redirect:/book/list";
 	}
 	
 	@GetMapping("/createview")
@@ -81,14 +86,34 @@ public class BookController {
 	
 	@GetMapping("/editview/{book_id}")
 	public String moveEditView(@PathVariable ("book_id") int book_id, Model model) {
-		model.addAttribute("TargetBook", bookService.targetBook(book_id));
+		model.addAttribute("TargetBook",bookService.targetBook(book_id));
 		return "bookedit";
 	}
+	
+	@PostMapping("/bookedit")
+	public String editBook(@ModelAttribute("editBook") BookList bookList,Model model) {
+		System.out.println(bookList);
+		bookService.editBook(bookList);
+		
+		//ファイルの保存処理
+		if (bookList.getFile().isEmpty()) {
+			model.addAttribute("error", "ファイルを指定してください");
+			return "redirect:/book/list";
+		}
 
+		saveFile(bookList,bookList.getFile_name());
+		return "redirect:/book/list";
+	}
 	
 	@GetMapping("/bookdelete/{book_id}")
 	public String deleteBook(@PathVariable("book_id") int book_id) {
 		bookService.deleteBook(book_id);
 		return "redirect:/book/bookinfo";
+	}
+	
+	@GetMapping("/details/{book_id}")
+	public String details(@PathVariable int book_id, Model model) {
+		model.addAttribute("TargetBook", bookService.targetBook(book_id));
+		return "bookdetails";
 	}
 }

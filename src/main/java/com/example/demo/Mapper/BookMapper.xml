@@ -73,7 +73,7 @@
 		SET 
 			book_name =#{book_name}, book_author=#{book_author}, 
 			book_publisher=#{book_publisher}, book_releasetime=#{book_releasetime}, 
-			update_time =now(), file_name = #{file_name}
+			update_time =now(), file_name = #{file_name} ,stock = #{stock}
 		WHERE
 			book_id =#{book_id};
 	</update>

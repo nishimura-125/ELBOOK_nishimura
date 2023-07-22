@@ -23,7 +23,7 @@ public class BookService {
 	}
 
 	public BookList targetBook(int book_id) {
-		return bookMapper.targetBook();
+		return bookMapper.targetBook(book_id);
 	}
 
 	public void createBook(BookList bookList) {
