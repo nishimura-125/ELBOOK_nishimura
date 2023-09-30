@@ -21,10 +21,9 @@ public interface UserMapper {
 
 	UserList targetUser(int user_id);
 
-
+	UserList emailFindUser(String maill);
 	
-	
-	
+	void emailDeleteUesr(String maill);
 	
 	
 }

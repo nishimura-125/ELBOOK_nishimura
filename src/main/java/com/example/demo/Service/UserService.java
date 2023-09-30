@@ -45,6 +45,12 @@ public class UserService {
 		return userMapper.targetUser(user_id);
 	}
 
-
+	public UserList emailFindUser(String maill) {
+		return userMapper.emailFindUser(maill);
+	}
+	
+	public void emailDeleteUesr(String maill) {
+		userMapper.emailDeleteUesr(maill);
+	}
 
 }
