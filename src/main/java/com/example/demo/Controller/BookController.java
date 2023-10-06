@@ -116,4 +116,5 @@ public class BookController {
 		model.addAttribute("TargetBook", bookService.targetBook(book_id));
 		return "bookdetails";
 	}
+	
 }

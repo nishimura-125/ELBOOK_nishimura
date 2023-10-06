@@ -48,6 +48,12 @@
 							<a class="nav-link" th:href="@{/book/createview}">Book_Create</a>
 						</li>
 					</ul>
+					<div align="right" class="container bg-light">
+						<form action="/search" method="get">
+							<input type="text" name="keyword" placeholder="keyword">
+							<button type="submit" class="btn  btn-outline-secondary">Search</button>
+						</form>
+					</div>
 
 					<div align="right" class="container bg-light">
 						<form action="#" th:action="@{/logout}" method="post">
